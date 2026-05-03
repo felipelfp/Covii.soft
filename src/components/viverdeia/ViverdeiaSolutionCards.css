@@ -1,0 +1,76 @@
+.viverdeia-solutions-section {
+  background-color: transparent;
+  font-family: 'Outfit', sans-serif;
+}
+
+.viverdeia-solutions-section .solution-row {
+  display: flex;
+  align-items: center;
+  gap: 100px;
+  margin-bottom: 120px;
+}
+
+.viverdeia-solutions-section .solution-row.row-reverse {
+  flex-direction: row-reverse;
+}
+
+.viverdeia-solutions-section .solution-info {
+  flex: 1;
+}
+
+.viverdeia-solutions-section .solution-info h2 {
+  font-size: 42px;
+  font-weight: 800;
+  margin-bottom: 20px;
+  color: var(--text-primary);
+}
+
+.viverdeia-solutions-section .solution-info p {
+  font-size: 18px;
+  color: var(--text-secondary);
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+.viverdeia-btn-outline {
+  padding: 12px 28px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  color: var(--text-primary);
+  font-weight: 600;
+  border-radius: 12px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.viverdeia-btn-outline:hover {
+  background: var(--glass-hover);
+  border-color: var(--accent-blue);
+  transform: translateY(-2px);
+}
+
+.viverdeia-solutions-section .solution-visual {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.viverdeia-solutions-section .dashboard-img {
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 992px) {
+  .viverdeia-solutions-section .solution-row, .viverdeia-solutions-section .solution-row.row-reverse {
+    flex-direction: column;
+    text-align: center;
+    gap: 40px;
+  }
+  .viverdeia-solutions-section .solution-row { margin-bottom: 80px; }
+  .viverdeia-solutions-section .solution-info h2 { font-size: 32px; }
+}

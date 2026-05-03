@@ -1,0 +1,66 @@
+.viverdeia-header {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  z-index: 1000;
+  border-bottom: 1px solid #F2F2F2;
+  padding: 18px 0;
+  font-family: 'Inter', sans-serif;
+}
+
+.viverdeia-header .header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.viverdeia-header .logo-text {
+  font-size: 24px;
+  color: #0b0d12;
+  letter-spacing: -1px;
+}
+
+.viverdeia-nav {
+  display: flex;
+  gap: 30px;
+}
+
+.viverdeia-nav a {
+  font-weight: 500;
+  font-size: 15px;
+  color: #5f6368;
+  text-decoration: none;
+}
+
+.viverdeia-nav a:hover {
+  color: #0b0d12;
+}
+
+.viverdeia-header .header-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.viverdeia-header .login-link {
+  font-weight: 500;
+  font-size: 15px;
+  color: #0b0d12;
+  text-decoration: none;
+}
+
+.viverdeia-btn-primary {
+    background-color: #0b0d12;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+@media (max-width: 992px) {
+  .viverdeia-nav { display: none; }
+}

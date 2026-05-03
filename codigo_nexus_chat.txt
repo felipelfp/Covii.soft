@@ -1,0 +1,567 @@
+============================================================
+CÓDIGO COMPLETO DO NEXUS CHAT (AVATAR E CHATBOT INTELIGENTE)
+============================================================
+
+Este arquivo contém todo o código do chatbot "Nexus AI", incluindo:
+- As animações de movimento do avatar (chegada ao centro, boas-vindas, rotação e parada no canto inferior direito)
+- A mãozinha dando tchau ("waving hand")
+- O balão de fala dinâmico ("speech bubble")
+- As perguntas e respostas do chat com formulário de conversão
+- Botão de WhatsApp dinâmico
+- Toda a estilização embutida em CSS e Framer Motion.
+
+------------------------------------------------------------
+Arquivo: src/components/NexusChat.jsx
+------------------------------------------------------------
+
+import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Bot, X, Send, MessageSquare, Phone } from 'lucide-react'
+
+const NexusChat = () => {
+    const [isOpen, setIsOpen] = useState(false)
+    const [step, setStep] = useState(0)
+    const [name, setName] = useState('')
+    const [company, setCompany] = useState('')
+    const [interest, setInterest] = useState('')
+    const [customMessage, setCustomMessage] = useState('')
+
+    const [messages, setMessages] = useState([
+        { id: 1, sender: 'ai', text: 'Olá! Sou a Nexus AI, assistente inteligente da Covii.soft. Como posso ajudar a sua empresa hoje?' }
+    ])
+
+    const [showBubble, setShowBubble] = useState(true)
+    const [hasLoaded, setHasLoaded] = useState(false)
+    const [isIntroDone, setIsIntroDone] = useState(false)
+    const [introStep, setIntroStep] = useState(1)
+    const [coords, setCoords] = useState({ x: -1200, y: -700, midX: -600, midY: -350 })
+    const [bubbleText, setBubbleText] = useState('')
+
+    useEffect(() => {
+        setHasLoaded(true)
+        if (typeof window !== 'undefined') {
+            setCoords({
+                x: -window.innerWidth + 200,
+                y: -window.innerHeight + 180,
+                midX: -window.innerWidth / 2,
+                midY: -window.innerHeight / 2
+            })
+        }
+        
+        // At 1.9 seconds: arrives at center. Show bubble text
+        const timer1 = setTimeout(() => {
+            setIntroStep(2)
+            setBubbleText('Seja bem-vindo! 🤖')
+        }, 1900)
+
+        // At 4.1 seconds: starts spinning. Hide bubble text
+        const timer2 = setTimeout(() => {
+            setIntroStep(3)
+        }, 4100)
+
+        // At 5.5 seconds: moves to resting place. Intro completes!
+        const timer3 = setTimeout(() => {
+            setIntroStep(4)
+            setIsIntroDone(true)
+            setBubbleText('Precisa de ajuda? Estou aqui! 🤖')
+        }, 5500)
+
+        return () => {
+            clearTimeout(timer1)
+            clearTimeout(timer2)
+            clearTimeout(timer3)
+        }
+    }, [])
+
+    useEffect(() => {
+        if (!isIntroDone) return
+
+        const interval = setInterval(() => {
+            setShowBubble(prev => !prev)
+        }, 12000)
+
+        return () => clearInterval(interval)
+    }, [isIntroDone])
+
+    useEffect(() => {
+        if (step === 1 && interest !== '') {
+            setMessages(prev => [
+                ...prev,
+                { id: Date.now(), sender: 'user', text: interest },
+                { id: Date.now() + 1, sender: 'ai', text: 'Excelente escolha! Automação e IA trazem retornos incríveis. Para agendarmos uma demonstração, qual o seu nome completo e o nome da sua empresa?' }
+            ])
+            setStep(2)
+        }
+    }, [interest])
+
+    const handleFormSubmit = (e) => {
+        e.preventDefault()
+        if (name && company) {
+            setMessages(prev => [
+                ...prev,
+                { id: Date.now(), sender: 'user', text: `Sou o ${name} da empresa ${company}.` },
+                { id: Date.now() + 1, sender: 'ai', text: `Muito prazer, ${name}! Nossas automações são feitas sob medida para acelerar a ${company}. Clique no botão abaixo para falar diretamente com nosso especialista no WhatsApp e receber sua proposta personalizada!` }
+            ])
+            setStep(3)
+        }
+    }
+
+    const handleCustomSubmit = (e) => {
+        e.preventDefault()
+        if (customMessage.trim()) {
+            setMessages(prev => [
+                ...prev,
+                { id: Date.now(), sender: 'user', text: customMessage },
+                { id: Date.now() + 1, sender: 'ai', text: 'Entendi! Para que eu possa te passar mais informações personalizadas sobre essa solução, qual o seu nome e o nome da sua empresa?' }
+            ])
+            setStep(2)
+            setCustomMessage('')
+        }
+    }
+
+    const whatsAppUrl = `https://wa.me/5541984837391?text=Olá! Gostaria de falar sobre o projeto. Nome: ${encodeURIComponent(name)}, Empresa: ${encodeURIComponent(company)}, Interesse: ${encodeURIComponent(interest || 'Automação & IA')}`
+
+    return (
+        <div style={{ position: 'fixed', bottom: '32px', right: '32px', zIndex: 10000, fontFamily: 'var(--font-body)' }}>
+            {/* Autonomous Moving/Floating Avatar with Speech Bubble */}
+            <div style={{ position: 'relative' }}>
+                {!isOpen && (
+                    <div style={{
+                        position: 'absolute',
+                        top: '25px',
+                        right: '25px',
+                        width: '14px',
+                        height: '14px',
+                        background: '#ef4444',
+                        borderRadius: '50%',
+                        border: '2px solid rgba(15, 23, 42, 0.95)',
+                        boxShadow: '0 0 12px #ef4444',
+                        zIndex: 11,
+                        animation: 'nexusPulseRed 1.5s infinite',
+                        pointerEvents: 'none'
+                    }} />
+                )}
+
+                {!isOpen && (introStep === 2 || (isIntroDone && showBubble)) && (
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.5 }}
+                        animate={introStep === 2 ? {
+                            x: coords.midX,
+                            y: coords.midY,
+                            opacity: 1,
+                            scale: 1,
+                            rotate: 0
+                        } : {
+                            x: 0,
+                            y: 0,
+                            opacity: 1,
+                            scale: 1,
+                            rotate: 0
+                        }}
+                        style={{
+                            position: 'absolute',
+                            right: introStep === 2 ? '172px' : '168px',
+                            bottom: '52px',
+                            background: 'rgba(15, 23, 42, 0.95)',
+                            backdropFilter: 'blur(12px)',
+                            border: '1px solid rgba(99, 102, 241, 0.3)',
+                            borderRadius: '14px',
+                            padding: '12px 20px',
+                            whiteSpace: 'nowrap',
+                            color: 'white',
+                            fontSize: '1.3rem',
+                            fontWeight: 700,
+                            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.6)',
+                            pointerEvents: 'none',
+                            zIndex: 15
+                        }}
+                    >
+                        {bubbleText}
+                        <div style={{
+                            position: 'absolute',
+                            right: '-6px',
+                            top: 'calc(50% - 6px)',
+                            width: '12px',
+                            height: '12px',
+                            background: 'rgba(15, 23, 42, 0.95)',
+                            borderRight: '1px solid rgba(99, 102, 241, 0.3)',
+                            borderBottom: '1px solid rgba(99, 102, 241, 0.3)',
+                            transform: 'rotate(-45deg)'
+                        }} />
+                    </motion.div>
+                )}
+
+                <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => setIsOpen(!isOpen)}
+                    initial={{ opacity: 0, scale: 0.2, rotate: 0 }}
+                    animate={isOpen ? { x: -410, y: -220, opacity: 1, scale: 1, rotate: 0 } : (
+                        !isIntroDone ? {
+                            x: [coords.x, coords.midX, coords.midX, 0],
+                            y: [coords.y, coords.midY, coords.midY, 0],
+                            rotate: [0, 0, 720, 0],
+                            opacity: [0, 1, 1, 1],
+                            scale: [0.4, 1.4, 1.4, 1],
+                            transition: {
+                                duration: 5.5,
+                                times: [0, 0.35, 0.75, 1],
+                                ease: "easeInOut"
+                            }
+                        } : {
+                            y: 0,
+                            x: 0,
+                            rotate: 0,
+                            opacity: 1,
+                            scale: 1
+                        }
+                    )}
+                    onAnimationComplete={() => {
+                        if (!isOpen) {
+                            setIsIntroDone(true)
+                        }
+                    }}
+                    style={{
+                        width: '164px',
+                        height: '164px',
+                        borderRadius: '50%',
+                        background: 'none',
+                        backdropFilter: 'none',
+                        border: 'none',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        cursor: 'pointer',
+                        boxShadow: 'none',
+                        color: 'white',
+                        position: 'relative'
+                    }}
+                >
+                    <div style={{ position: 'relative', width: '100%', height: '100%', fill: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <svg width="128" height="128" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <radialGradient id="nexusGlow" cx="50%" cy="50%" r="50%">
+                                    <stop offset="0%" stopColor="#818cf8" />
+                                    <stop offset="100%" stopColor="#4f46e5" />
+                                </radialGradient>
+                                <linearGradient id="orbitGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stopColor="#6366f1" />
+                                    <stop offset="100%" stopColor="#a855f7" />
+                                </linearGradient>
+                            </defs>
+                            {/* Robot/AI glowing brain core */}
+                            <path d="M50 32C41.1634 32 34 39.1634 34 48C34 53.6442 36.9324 58.6019 41.3653 61.4142L41 71H59L58.6347 61.4142C63.0676 58.6019 66 53.6442 66 48C66 39.1634 58.8366 32 50 32Z" fill="url(#nexusGlow)" />
+                            {/* AI Eyes */}
+                            <circle cx="43" cy="46" r="3" fill="white" />
+                            <circle cx="57" cy="46" r="3" fill="white" />
+                            <path d="M44 54H56" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                            {/* Waving Hand/Tchauzinho Animation Group */}
+                            <g style={{ transformOrigin: '70px 65px', animation: 'nexusWave 1.8s infinite ease-in-out' }}>
+                                <circle cx="70" cy="65" r="3" fill="#6366f1" />
+                                <path d="M 70 65 Q 82 50 86 54 Q 84 62 70 65" fill="#818cf8" stroke="white" strokeWidth="1.5" />
+                                {/* Small waving hand lines */}
+                                <path d="M 85 45 L 89 42" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+                                <path d="M 88 52 L 93 51" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+                            </g>
+                            {/* High-tech orbit dots */}
+                            <circle cx="50" cy="22" r="3.5" fill="#a855f7" />
+                            <circle cx="22" cy="50" r="3.5" fill="#6366f1" />
+                        </svg>
+                    </div>
+                </motion.button>
+            </div>
+
+            {/* Chatbot Interface Popup */}
+            <AnimatePresence>
+                {isOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 20, scale: 0.95 }}
+                        transition={{ duration: 0.25 }}
+                        style={{
+                            position: 'absolute',
+                            bottom: '84px',
+                            right: 0,
+                            width: '380px',
+                            maxWidth: 'calc(100vw - 64px)',
+                            height: '520px',
+                            background: 'rgba(15, 23, 42, 0.95)',
+                            backdropFilter: 'blur(20px)',
+                            borderRadius: '24px',
+                            border: '1px solid rgba(255, 255, 255, 0.08)',
+                            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.6)',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            overflow: 'hidden'
+                        }}
+                    >
+                        {/* Header */}
+                        <div style={{
+                            padding: '16px 20px',
+                            background: 'rgba(30, 41, 59, 0.6)',
+                            borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '12px'
+                        }}>
+                            <div style={{
+                                width: '40px',
+                                height: '40px',
+                                borderRadius: '50%',
+                                background: 'rgba(99, 102, 241, 0.15)',
+                                color: 'var(--indigo-400)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                border: '1px solid rgba(99, 102, 241, 0.2)'
+                            }}>
+                                <Bot size={20} />
+                            </div>
+                            <div>
+                                <h4 style={{ color: 'white', margin: 0, fontSize: '1rem', fontWeight: 700 }}>Nexus AI</h4>
+                                <p style={{ color: '#22c55e', margin: 0, fontSize: '0.75rem', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                    <span style={{ width: '6px', height: '6px', background: '#22c55e', borderRadius: '50%', display: 'inline-block' }}></span>
+                                    Online — Pronto para ajudar
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Chat Messages / Conversation Area */}
+                        <div style={{
+                            flex: 1,
+                            padding: '20px',
+                            overflowY: 'auto',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '16px'
+                        }}>
+                            {messages.map((msg) => (
+                                <div key={msg.id} style={{
+                                    alignSelf: msg.sender === 'ai' ? 'flex-start' : 'flex-end',
+                                    maxWidth: '85%',
+                                    background: msg.sender === 'ai' ? 'rgba(30, 41, 59, 0.8)' : 'var(--indigo-600)',
+                                    color: msg.sender === 'ai' ? 'var(--slate-200)' : 'white',
+                                    padding: '12px 16px',
+                                    borderRadius: msg.sender === 'ai' ? '0 16px 16px 16px' : '16px 0 16px 16px',
+                                    fontSize: '0.875rem',
+                                    lineHeight: 1.5,
+                                    border: msg.sender === 'ai' ? '1px solid rgba(255, 255, 255, 0.04)' : 'none'
+                                }}>
+                                    {msg.text}
+                                </div>
+                            ))}
+
+                            {/* Interactive Conversion Steps */}
+                            {step === 0 && (
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '8px' }}>
+                                    {[
+                                        "Como a Covii.soft pode nos ajudar?",
+                                        "Quero Automatizar Processos",
+                                        "Criar Chatbots Inteligentes",
+                                        "Desenvolvimento de Softwares"
+                                    ].map((opt) => (
+                                        <button
+                                            key={opt}
+                                            onClick={() => {
+                                                setInterest(opt)
+                                            }}
+                                            style={{
+                                                background: 'rgba(255, 255, 255, 0.03)',
+                                                border: '1px solid rgba(255, 255, 255, 0.08)',
+                                                color: 'var(--slate-300)',
+                                                padding: '10px 14px',
+                                                borderRadius: '12px',
+                                                fontSize: '0.8rem',
+                                                textAlign: 'left',
+                                                cursor: 'pointer',
+                                                transition: 'all 0.2s'
+                                            }}
+                                            className="nexus-option-btn"
+                                        >
+                                            {opt}
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+
+                            {step === 2 && (
+                                <form onSubmit={handleFormSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '8px' }}>
+                                    <div>
+                                        <label style={{ fontSize: '0.75rem', color: 'var(--slate-400)', display: 'block', marginBottom: '4px' }}>Seu Nome</label>
+                                        <input 
+                                            type="text" 
+                                            value={name} 
+                                            onChange={(e) => setName(e.target.value)} 
+                                            required 
+                                            placeholder="Ex: Carlos Silva"
+                                            style={{
+                                                width: '100%',
+                                                padding: '10px 14px',
+                                                borderRadius: '12px',
+                                                background: 'rgba(255, 255, 255, 0.03)',
+                                                border: '1px solid rgba(255, 255, 255, 0.1)',
+                                                color: 'white',
+                                                fontSize: '0.85rem'
+                                            }}
+                                        />
+                                    </div>
+                                    <div>
+                                        <label style={{ fontSize: '0.75rem', color: 'var(--slate-400)', display: 'block', marginBottom: '4px' }}>Nome da Empresa</label>
+                                        <input 
+                                            type="text" 
+                                            value={company} 
+                                            onChange={(e) => setCompany(e.target.value)} 
+                                            required 
+                                            placeholder="Ex: Minha Empresa Ltda"
+                                            style={{
+                                                width: '100%',
+                                                padding: '10px 14px',
+                                                borderRadius: '12px',
+                                                background: 'rgba(255, 255, 255, 0.03)',
+                                                border: '1px solid rgba(255, 255, 255, 0.1)',
+                                                color: 'white',
+                                                fontSize: '0.85rem'
+                                            }}
+                                        />
+                                    </div>
+                                    <button 
+                                        type="submit" 
+                                        style={{
+                                            background: 'var(--indigo-600)',
+                                            border: 'none',
+                                            color: 'white',
+                                            padding: '12px',
+                                            borderRadius: '12px',
+                                            fontWeight: 600,
+                                            fontSize: '0.85rem',
+                                            cursor: 'pointer',
+                                            marginTop: '4px',
+                                            transition: 'all 0.2s'
+                                        }}
+                                    >
+                                        Continuar
+                                    </button>
+                                </form>
+                            )}
+
+                            {step === 3 && (
+                                <a 
+                                    href={whatsAppUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    style={{
+                                        background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+                                        color: 'white',
+                                        textDecoration: 'none',
+                                        padding: '14px 18px',
+                                        borderRadius: '14px',
+                                        fontWeight: 700,
+                                        fontSize: '0.9rem',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        gap: '8px',
+                                        marginTop: '12px',
+                                        boxShadow: '0 8px 32px rgba(34, 197, 94, 0.45)',
+                                        textTransform: 'uppercase',
+                                        letterSpacing: '0.5px',
+                                        animation: 'nexusNeonPulse 2s infinite',
+                                        transition: 'all 0.2s'
+                                    }}
+                                >
+                                    Iniciar Proposta no WhatsApp <Phone size={16} />
+                                </a>
+                            )}
+                        </div>
+
+                        {/* Custom Chat Message Box */}
+                        {step !== 3 && (
+                            <form onSubmit={handleCustomSubmit} style={{
+                                padding: '12px 16px',
+                                borderTop: '1px solid rgba(255, 255, 255, 0.05)',
+                                display: 'flex',
+                                gap: '8px',
+                                background: 'rgba(15, 23, 42, 0.4)'
+                            }}>
+                                <input 
+                                    type="text" 
+                                    placeholder="Escreva sua pergunta..." 
+                                    value={customMessage}
+                                    onChange={(e) => setCustomMessage(e.target.value)}
+                                    style={{
+                                        flex: 1,
+                                        background: 'rgba(255, 255, 255, 0.03)',
+                                        border: '1px solid rgba(255, 255, 255, 0.08)',
+                                        color: 'white',
+                                        padding: '10px 14px',
+                                        borderRadius: '12px',
+                                        fontSize: '0.85rem'
+                                    }}
+                                />
+                                <button 
+                                    type="submit"
+                                    style={{
+                                        width: '40px',
+                                        height: '40px',
+                                        borderRadius: '12px',
+                                        background: 'var(--indigo-600)',
+                                        border: 'none',
+                                        color: 'white',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        cursor: 'pointer',
+                                        transition: 'all 0.2s'
+                                    }}
+                                >
+                                    <Send size={16} />
+                                </button>
+                            </form>
+                        )}
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            <style>{`
+                .nexus-option-btn:hover {
+                    background: rgba(99, 102, 241, 0.1) !important;
+                    border-color: var(--indigo-500) !important;
+                    color: white !important;
+                    transform: translateY(-1px);
+                }
+                .avatar-glowing-pulse {
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    background: var(--indigo-500);
+                    opacity: 0.4;
+                    border-radius: 50%;
+                    top: 0;
+                    left: 0;
+                    z-index: -1;
+                    animation: nexus-pulse 2s infinite;
+                }
+                @keyframes nexus-pulse {
+                    0% { transform: scale(1); opacity: 0.5; }
+                    100% { transform: scale(1.4); opacity: 0; }
+                }
+                @keyframes nexusWave {
+                    0%, 100% { transform: rotate(0deg); }
+                    50% { transform: rotate(-22deg); }
+                }
+                @keyframes nexusPulseRed {
+                    0% { transform: scale(1); opacity: 1; }
+                    50% { transform: scale(1.3); opacity: 0.8; }
+                    100% { transform: scale(1); opacity: 1; }
+                }
+                @keyframes nexusNeonPulse {
+                    0%, 100% { transform: scale(1); box-shadow: 0 8px 32px rgba(34, 197, 94, 0.45); }
+                    50% { transform: scale(1.03); box-shadow: 0 12px 40px rgba(34, 197, 94, 0.7); }
+                }
+            `}</style>
+        </div>
+    )
+}
+
+export default NexusChat;

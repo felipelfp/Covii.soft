@@ -1,0 +1,71 @@
+.viverdeia-footer {
+  background-color: transparent;
+  color: var(--text-secondary);
+  padding: 80px 0 0;
+  border-top: 1px solid var(--glass-border);
+  font-family: 'Outfit', sans-serif;
+}
+
+.viverdeia-footer .footer-content {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 60px;
+}
+
+.viverdeia-footer .footer-brand {
+  max-width: 300px;
+}
+
+.viverdeia-footer .footer-brand .logo-text {
+  color: white;
+  display: block;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.viverdeia-footer .footer-brand p {
+  font-size: 14px;
+}
+
+.viverdeia-footer .footer-links {
+  display: flex;
+  gap: 80px;
+}
+
+.viverdeia-footer .links-col h4 {
+  color: white;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.viverdeia-footer .links-col a {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: #888;
+  text-decoration: none;
+}
+
+.viverdeia-footer .footer-bottom {
+  padding: 30px 0;
+  border-top: 1px solid #1a1e26;
+  text-align: center;
+  font-size: 12px;
+}
+
+.viverdeia-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+  .viverdeia-footer .footer-content {
+    flex-direction: column;
+    gap: 40px;
+  }
+  .viverdeia-footer .footer-links {
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+}

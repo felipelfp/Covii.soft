@@ -1,0 +1,65 @@
+.viverdeia-trust-wall {
+  border-top: 1px solid var(--glass-border);
+  border-bottom: 1px solid var(--glass-border);
+  background-color: transparent;
+  font-family: 'Inter', sans-serif;
+  padding: 60px 0;
+}
+
+.viverdeia-trust-wall .trust-label {
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 40px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 600;
+}
+
+.viverdeia-trust-wall .tech-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  align-items: center;
+}
+
+.viverdeia-trust-wall .tech-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.viverdeia-trust-wall .tech-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--indigo-500);
+  transform: translateY(-3px);
+}
+
+.viverdeia-trust-wall .tech-icon {
+  color: var(--indigo-400);
+  display: flex;
+  align-items: center;
+}
+
+.viverdeia-trust-wall .tech-name {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .viverdeia-trust-wall .tech-grid {
+    gap: 15px;
+  }
+  .viverdeia-trust-wall .tech-item {
+    padding: 8px 16px;
+  }
+}
