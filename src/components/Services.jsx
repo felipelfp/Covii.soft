@@ -1,8 +1,22 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { CheckCircle2, MessageSquare, Phone, Database, Workflow, ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react'
+import { CheckCircle2, MessageSquare, Phone, Database, Workflow, ChevronLeft, ChevronRight, ArrowRight, Layout, Palette } from 'lucide-react'
 
 const services = [
+    {
+        title: "SaaS Personalizado",
+        desc: "Sistemas web modernos e sob medida (Software as a Service) desenvolvidos em PHP, C# e Angular para otimizar os processos e escalar o seu negócio.",
+        icon: <Layout className="service-icon" />,
+        tags: ["PHP", "C#", "Angular"],
+        color: "#10b981"
+    },
+    {
+        title: "Identidade Visual & Logos",
+        desc: "Criação de marcas, logos e identidade visual profissional usando o ecossistema Adobe (Illustrator, Photoshop, InDesign) para garantir presença de marca premium.",
+        icon: <Palette className="service-icon" />,
+        tags: ["Adobe", "Photoshop", "Branding"],
+        color: "#f59e0b"
+    },
     {
         title: "Automação com n8n",
         desc: "Fluxos de trabalho inteligentes que conectam todas as suas ferramentas e eliminam tarefas repetitivas. Desenvolvemos integrações complexas que economizam centenas de horas manuais.",
@@ -78,7 +92,7 @@ const Services = () => {
             <div style={{ marginBottom: '64px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
                 <div style={{ textAlign: 'left' }}>
                     <span className="tag" style={{ marginBottom: '16px', display: 'inline-block' }}>O que fazemos</span>
-                    <h2 style={{ fontSize: '2.5rem', marginTop: '8px' }}>Soluções de Alta Performance</h2>
+                    <h2 style={{ fontSize: '2.5rem', marginTop: '8px' }}>Soluções Covii</h2>
                 </div>
                 
                 <div className="carousel-nav" style={{ display: 'flex', gap: '12px' }}>
