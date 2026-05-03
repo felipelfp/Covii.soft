@@ -161,8 +161,7 @@ const ViverdeiaSolutions = () => {
                   </div>
 
                   <div className="viverdeia-modal-footer">
-                    <a href="https://wa.me/5541984837391" target="_blank" rel="noopener noreferrer" className="viverdeia-btn-primary" style={{ textDecoration: 'none', textAlign: 'center' }}>Começar Agora</a>
-                    <a href="https://wa.me/5541984837391" target="_blank" rel="noopener noreferrer" className="viverdeia-btn-secondary" style={{ textDecoration: 'none', textAlign: 'center' }}>Falar com Consultor <ArrowRight size={18} /></a>
+                    <a href="https://wa.me/5541984837391" target="_blank" rel="noopener noreferrer" className="viverdeia-btn-primary" style={{ textDecoration: 'none', textAlign: 'center', width: '100%' }}>Começar Agora</a>
                   </div>
                 </div>
               </div>
@@ -308,6 +307,64 @@ const ViverdeiaSolutions = () => {
           font-size: 2.5rem;
           margin-bottom: 20px;
           color: white;
+        }
+
+        .viverdeia-btn-primary {
+          background: linear-gradient(135deg, var(--indigo-600), var(--indigo-500));
+          color: white;
+          padding: 14px 28px;
+          border-radius: 12px;
+          font-weight: 600;
+          font-size: 0.95rem;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          cursor: pointer;
+          transition: all 0.3s ease;
+          box-shadow: 0 4px 20px rgba(99, 102, 241, 0.35);
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+        }
+
+        .viverdeia-btn-primary:hover {
+          background: linear-gradient(135deg, var(--indigo-500), var(--indigo-400));
+          transform: translateY(-2px);
+          box-shadow: 0 6px 24px rgba(99, 102, 241, 0.5);
+        }
+
+        .viverdeia-btn-secondary {
+          background: rgba(255, 255, 255, 0.04);
+          border: 1px solid var(--glass-border);
+          color: white;
+          padding: 14px 28px;
+          border-radius: 12px;
+          font-weight: 600;
+          font-size: 0.95rem;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+        }
+
+        .viverdeia-btn-secondary:hover {
+          background: rgba(255, 255, 255, 0.08);
+          border-color: rgba(255, 255, 255, 0.2);
+          transform: translateY(-2px);
+        }
+
+        .viverdeia-badge {
+          display: inline-block;
+          background: rgba(99, 102, 241, 0.15);
+          border: 1px solid rgba(99, 102, 241, 0.3);
+          color: var(--indigo-400);
+          padding: 6px 14px;
+          border-radius: 30px;
+          font-weight: 700;
+          font-size: 0.75rem;
+          letter-spacing: 1px;
+          margin-bottom: 20px;
         }
 
         @media (max-width: 992px) {

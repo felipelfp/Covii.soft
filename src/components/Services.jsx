@@ -5,42 +5,42 @@ import { CheckCircle2, MessageSquare, Phone, Database, Workflow, ChevronLeft, Ch
 const services = [
     {
         title: "SaaS Personalizado",
-        desc: "Sistemas web modernos e sob medida (Software as a Service) desenvolvidos em PHP, C# e Angular para otimizar os processos e escalar o seu negócio.",
+        desc: "Construção de sistemas web exclusivos e softwares sob medida. Usamos PHP, C# e Angular para criar plataformas completas que ajudam a sua empresa a crescer.",
         icon: <Layout className="service-icon" />,
         tags: ["PHP", "C#", "Angular"],
         color: "#10b981"
     },
     {
         title: "Identidade Visual & Logos",
-        desc: "Criação de marcas, logos e identidade visual profissional usando o ecossistema Adobe (Illustrator, Photoshop, InDesign) para garantir presença de marca premium.",
+        desc: "Design de marcas e logotipos profissionais. Criamos toda a identidade visual da sua empresa usando ferramentas da Adobe para deixar a sua marca premium e atraente.",
         icon: <Palette className="service-icon" />,
         tags: ["Adobe", "Photoshop", "Branding"],
         color: "#f59e0b"
     },
     {
         title: "Automação com n8n",
-        desc: "Fluxos de trabalho inteligentes que conectam todas as suas ferramentas e eliminam tarefas repetitivas. Desenvolvemos integrações complexas que economizam centenas de horas manuais.",
+        desc: "Integração e automação de tarefas repetitivas. Conectamos seus sistemas e ferramentas para que trabalhem sozinhos, economizando o tempo da sua equipe.",
         icon: <Workflow className="service-icon" />,
         tags: ["n8n", "Webhooks", "APIs"],
         color: "#6366f1"
     },
     {
         title: "Chatbots IA (WhatsApp/TG)",
-        desc: "Atendimento 24/7 com inteligência artificial para converter leads e suporte automático. Treinamos modelos de linguagem específicos para o seu negócio.",
+        desc: "Atendimento automático inteligente no WhatsApp e Telegram. Seus clientes são atendidos e respondidos 24 horas por dia por uma inteligência artificial treinada.",
         icon: <MessageSquare className="service-icon" />,
         tags: ["GPT-4", "WhatsApp", "Telegram"],
         color: "#8b5cf6"
     },
     {
         title: "URAs & Sistemas VoIP",
-        desc: "Centrais telefônicas inteligentes com reconhecimento de voz e fluxos de atendimento personalizados. Automatize o primeiro contato telefônico com precisão.",
+        desc: "Centrais de atendimento por telefone automáticas. Criamos menus de atendimento por voz para direcionar e responder as ligações dos seus clientes com agilidade.",
         icon: <Phone className="service-icon" />,
         tags: ["VoIP", "URA", "PABX Cloud"],
         color: "#3b82f6"
     },
     {
         title: "Integração CRM & Dados",
-        desc: "Sincronização em tempo real de contatos, vendas e processos diretamente no seu CRM. Dashboards personalizados para visualização de métricas em tempo real.",
+        desc: "Organização e sincronização de dados. Conectamos suas vendas, contatos e métricas diretamente no seu CRM e em painéis visuais para facilitar suas decisões.",
         icon: <Database className="service-icon" />,
         tags: ["CRM", "SQL", "Sync"],
         color: "#06b6d4"

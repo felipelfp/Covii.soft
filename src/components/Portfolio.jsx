@@ -91,7 +91,7 @@ const Portfolio = () => {
             <div style={{ marginBottom: '64px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
                 <div style={{ textAlign: 'left' }}>
                     <span className="tag" style={{ marginBottom: '16px', display: 'inline-block' }}>Nosso Portfólio</span>
-                    <h2 style={{ fontSize: '2.5rem', marginTop: '8px' }}>Projetos de Impacto</h2>
+                    <h2 style={{ fontSize: '2.5rem', marginTop: '8px' }}>Projetos</h2>
                 </div>
                 
                 <div className="carousel-nav" style={{ display: 'flex', gap: '16px', marginBottom: '8px' }}>
